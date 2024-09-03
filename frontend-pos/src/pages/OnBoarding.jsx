@@ -98,15 +98,16 @@ export function EnterShopDetails() {
 
 export function ConnectWalletPage() {
 
-    const [account, setAccount] = useState[null];
+    const [account, setAccount] = useState(null);
 
 
     const connectWallet = async () => {
         if (window.ethereum) {
             try {
-                const provider = ethers.providers.Web3Provider(window.ethereum);
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const accounts = await provider.send('eth_requestAccounts', []);
                 const currentAcc = setAccount(accounts[0]);
+                console.log(account);
             } catch (error) {
                 console.log(error);
             }
@@ -143,7 +144,7 @@ export function ConnectWalletPage() {
 
 
                     <div className="flex justify-center mt-16">
-                        <Link to={'/connect-wallet'} className="px-16 bg-blue-600 text-white py-2 rounded-md">Connect Wallet</Link>
+                        <button onClick={connectWallet} className="px-16 bg-blue-600 text-white py-2 rounded-md">Connect Wallet</button>
 
                     </div>
                     <div className="flex justify-center mt-16">
