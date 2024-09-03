@@ -35,10 +35,10 @@ export default function HomePage() {
     return (
 
         <>
-            <button onClick={connectWallet}>Hello</button>
+
             <div className="homepage p-2">
                 <p className="greet text-3xl mt-6 ml-6 font-bold">SevenEleven Shops Pvt.</p>
-                <p className="soladdress ml-6 overflow-hidden flex mt-1">{start}...{end} {account}
+                <p className="soladdress ml-6 overflow-hidden flex mt-1">{start}...{end}
                     <FaRegCopy className='ml-2 mt-1 mr-3' />
                     BAL: <b> 45 ETH </b>
                 </p>
