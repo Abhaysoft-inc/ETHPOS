@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ethers } from 'ethers'
+import AddressContext from '../context/walletAddressContect';
 
 
 export function OnBoarding() {
@@ -14,7 +15,7 @@ export function OnBoarding() {
 
                 <div className="on-board ">
 
-                    <p className="text-3xl font-bold flex justify-center">Welcome To SOLPOS</p>
+                    <p className="text-3xl font-bold flex justify-center">Welcome To ETHPOS</p>
 
                     <div className="sliderimg flex justify-center">
                         <img src='/images/onboard-1.avif' className='w-[50%] mt-24' />
@@ -36,8 +37,6 @@ export function OnBoarding() {
 }
 
 export function EnterShopDetails() {
-
-
 
     return (
         <>
@@ -88,17 +87,22 @@ export function EnterShopDetails() {
                 </div>
             </div>
 
-
-
-
         </>
     )
 }
 
 
 export function ConnectWalletPage() {
+    const { setAccount } = useContext(AddressContext);
+    const navigate = useNavigate();
 
-    const [account, setAccount] = useState(null);
+    useEffect(() => {
+        const storedAccount = localStorage.getItem('account');
+        if (storedAccount) {
+            setAccount(storedAccount);
+            navigate('/home');
+        }
+    }, [setAccount, navigate]);
 
 
     const connectWallet = async () => {
@@ -106,8 +110,12 @@ export function ConnectWalletPage() {
             try {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const accounts = await provider.send('eth_requestAccounts', []);
-                const currentAcc = setAccount(accounts[0]);
-                console.log(account);
+                setAccount(accounts[0]);
+                localStorage.setItem('account', accounts[0]);
+                navigate('/home'); // Redirect to home after connecting the wallet
+
+
+
             } catch (error) {
                 console.log(error);
             }
@@ -116,11 +124,10 @@ export function ConnectWalletPage() {
             alert("Download Metamask");
         }
     }
-
-
-
     return (
         <>
+
+
 
             <div className="icon mt-5 mx-6">
                 <IoMdArrowRoundBack size={40} />
@@ -156,6 +163,8 @@ export function ConnectWalletPage() {
 
                 </div>
             </div>
+
+
 
 
 
